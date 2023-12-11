@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import AddPostForm
 
 from .models import *
 
@@ -51,8 +53,20 @@ def post(request, post_slug):
     return render(request,'blog/post.html', context=context)
 
 def addpost(request):
+    if request.method == 'POST':
+        form = AddPostForm(request.POST,  request.FILES)
+        if form.is_valid():
+            #print(form.cleaned_data)
+            try:
+                form.save()
+                return redirect('main')
+            except:
+                form.add_error(None, "Лох!")
+    else:
+        form = AddPostForm()
     context = {
         'title': "Добавить пост", 
         'nav_list': nav_list,
+        'form': form,
     }
     return render(request, 'blog/addpost.html', context=context)
