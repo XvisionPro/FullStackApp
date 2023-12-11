@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'blog/css/reset.css' %}" type="text/css">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <a href="{% url 'main' %}"><h1 class="header__name">{{title}}</h1></a>
+            </div>
+        </div>
+        <div class="header__menu">
+            <div class="container">
+                <nav class="header__nav nav">
+                    {% block nav %}
+                    <ul class="nav-list">
+                        {% for item in nav_list %}
+                            <li class="nav-list__item"><a href="{% url item.url_name %}">{{item.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endblock nav %}
+                </nav>
+            </div>
+        </div>
+    </header>
+    {% block content %}
+
+    {% endblock content %}
+</body>
+</html>

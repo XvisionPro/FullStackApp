@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>{{title}}</h1>
+    <div class="portfolio__posts">
+        {% for p in posts %}
+        <div class="portfolio__post">
+            <img src="#" alt="">
+            <p class="post__title">{{p.title}}</p>
+            <a href="{{p.get_absolute_url}}" class="post__btn btn">Кнопка</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
