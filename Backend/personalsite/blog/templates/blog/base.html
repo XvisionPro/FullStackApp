@@ -19,9 +19,9 @@
             <div class="container">
                 <nav class="header__nav nav">
                     {% block nav %}
-                    <ul class="nav-list">
+                    <ul class="nav-list left">
                         {% for item in nav_list %}
-                            <li class="nav-list__item"><a href="{% url item.url_name %}">{{item.title}}</a></li>
+                            <li class="nav-list__item "><a href="{% url item.url_name %}">{{item.title}}</a></li>
                         {% endfor %}
                     </ul>
                     {% endblock nav %}

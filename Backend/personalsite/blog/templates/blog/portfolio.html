@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>{{title}}</h1>
+    <a href="{% url 'addpost' %}" class="add-post-btn btn">Добавить пост</a>
     <div class="portfolio__posts">
         {% for p in posts %}
         <div class="portfolio__post">

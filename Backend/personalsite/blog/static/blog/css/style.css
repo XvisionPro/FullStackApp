@@ -60,6 +60,11 @@
     font-weight: 500;
 }
 
+.left{
+    float: left;
+    padding-bottom: 20px;
+}
+
 .btn{
     display: flex;
     width: 100px;
@@ -68,4 +73,10 @@
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+}
+
+.add-post-btn{
+    width:fit-content;
+    padding: 5px 25px;
+    font-size: 24px;
 }
