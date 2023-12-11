@@ -7,10 +7,11 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
-class User(AbstractBaseUser):
-    username = None
-    email = models.EmailField(_('email_address'), unique=True, max_length = 200)
+class CustomUser(AbstractBaseUser):
+    username = models.CharField(max_length=50, unique=True,verbose_name='Имя пользователя')
     welcomeCode = models.CharField(verbose_name='Код приглашения',unique=True, max_length=50, null=True)
+    
+    USERNAME_FIELD = 'username'
     
     def __str__(self):
         return self.username

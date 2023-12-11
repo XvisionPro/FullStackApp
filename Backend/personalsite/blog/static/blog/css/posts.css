@@ -1,0 +1,23 @@
+.portfolio__posts{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+    gap: 20px;
+}
+
+.portfolio__post{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 30em;
+    height: 300px;
+    padding: 25px;
+    border-radius: 20px;
+    background-color: gainsboro;
+    justify-content: flex-end;
+}
+
+.post__title{
+    font-size: 28px;
+    font-weight: 500;
+}

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap');
+@import url('./posts.css');
+
 
 *, *::before, *::after {
     padding: 0;
@@ -58,6 +60,12 @@
     font-weight: 500;
 }
 
-.portfolio__posts{
-    background-color: black;
+.btn{
+    display: flex;
+    width: 100px;
+    height: 40px;
+    background-color: #ecebeb;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
 }
