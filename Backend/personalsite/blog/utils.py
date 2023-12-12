@@ -5,7 +5,8 @@ nav_list = [{'title': "Главная", 'url_name': 'main'},
 
 
 class DataMixin:
- def get_user_context(self, **kwargs):
-    context = kwargs
-    context['nav_list'] = nav_list
-    return context
+   paginate_by = 2
+   def get_user_context(self, **kwargs):
+      context = kwargs
+      context['nav_list'] = nav_list
+      return context

@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView, DetailView
+from django.core.paginator import Paginator
 
 from .utils import nav_list, DataMixin
 from .forms import AddPostForm
@@ -16,14 +17,31 @@ from .models import *
 class Portfolio(DataMixin, ListView):
     model = Post
     template_name = 'blog/portfolio.html'
-    context_object_name = 'students'
+    context_object_name = 'posts'
+    paginate_by = 4
     def get_context_data(self, *, object_list=None, **kwargs):
-        posts = Post.objects.all() 
+        posts = Post.objects.all()
         context = super().get_context_data(**kwargs)
         context['title'] = 'Портфолио'
         context['nav_list'] = nav_list
         context['posts'] = posts
         return context
+    
+    def get_queryset(self):
+        return Post.objects.filter()
+
+# def portfolio(request):
+#     posts = Post.objects.all()
+#     paginator = Paginator(posts,4)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+    
+#     context = {
+#         'title': "Портфолио", 
+#         'nav_list': nav_list,
+#         'posts': posts
+#     }
+#     return render(request, 'blog/portfolio.html', context=context)
 
 class ShowPost(DetailView):
     model = Post
