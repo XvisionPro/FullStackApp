@@ -1,8 +1,19 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+<div class="post__about">
+    <div class="container">
+        <div class="post__wrapper">
+            <div class="post__content">
+                <p class="post__title">{{post.title}}</p>
+                <p class="post__author">Автор: {{post.user}}</p>
+            </div>
+            <img src="{{post.thumbnail.url}}" alt="" class="post__thumbnail">
+        </div>
+    </div>
+</div>
+
 <div class="container">
-    <h1>{{title}}</h1>
-    <p>{{text}}</p>
+    <p class="post__text">{{post.text}}</p>
 </div>
 {% endblock content %}

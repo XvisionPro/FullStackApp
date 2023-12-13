@@ -4,18 +4,20 @@
 <div class="container">
     <a href="{% url 'addpost' %}" class="add-post-btn btn">Добавить пост</a>
 
-    <form method="get" action="{% url 'portfolio' %}">
-        {{ st_filter.form.as_p }}
-        <button type="submit">Искать</button>
+    <form method="get" action="{% url 'portfolio' %}" class="search-form">
+        <div class="search-item">{{ st_filter.form.as_p }}</div>
+        <button type="submit" class="btn search-btn">Искать</button>
         </form>
        
 
     <div class="portfolio__posts">
         {% for p in page_obj %}
         <div class="portfolio__post">
-            <img src="#" alt="">
-            <p class="post__title">{{p.title}}</p>
-            <a href="{{p.get_absolute_url}}" class="post__btn btn">Открыть</a>
+            <img src="{{ p.thumbnail.url }}" alt="" class="post__bg">
+            <div class="post_wrapper">
+                <p class="post__title">{{p.title}}</p>
+                <a href="{{p.get_absolute_url}}" class="post__btn btn">Открыть</a>
+            </div>
         </div>
         {% endfor %}
     </div>

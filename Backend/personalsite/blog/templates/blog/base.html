@@ -24,9 +24,9 @@
                             <li class="nav-list__item left"><a href="{% url item.url_name %}">{{item.title}}</a></li>
                         {% endfor %}
                         {% if request.user.is_authenticated %}
-                        <li class="last"> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
+                        <li class="last nav-list__item"> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a></li>
                         {% else %}
-                        <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                        <li class="last nav-list__item"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
                         {% endif %}
                     </ul>
                     {% endblock nav %}

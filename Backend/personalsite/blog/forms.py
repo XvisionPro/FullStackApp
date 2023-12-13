@@ -1,7 +1,9 @@
+from typing import Any
 from django import forms
 from blog.models import Post
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 
 # class AddPostForm2(forms.Form):
 #     title = forms.CharField(label='Название поста', max_length=100)
@@ -11,9 +13,9 @@ from django.contrib.auth.models import User
 class AddPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = '__all__'
-
-
+        fields = ('title', 'thumbnail', 'text', 'user','slug')
+        
+    
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин')
     email = forms.EmailField(label='E-mail')

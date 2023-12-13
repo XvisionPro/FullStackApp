@@ -125,5 +125,39 @@
 .list-pages .page-num-selected:hover {
     box-shadow: none; 
 }
+
+.search-form{
+    padding: 20px 0;
+}
+
+.search-btn{
+    margin-top: 15px;
+}
+
+input,  textarea{
+    border-style:solid;
+    border-radius: 3px;
+    border-width: 2px;
+    border-color: #cccccc;
+    background-color: #ecebeb;
+    padding: 5px;
+}
+
+.register__form label{
+    font-size: 20px;
+}
+
+.register__form input{
+    float: right;
+}
+
+.register__form{
+    width: 32%;
+    margin: 20px 0;
+}
+
+.register-btn{
+    padding:0 70px;
+}
    
    

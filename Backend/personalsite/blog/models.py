@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.urls import reverse 
 from django.utils import timezone 
 from django.utils.translation import gettext_lazy as _ 
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -24,6 +25,7 @@ class Post(models.Model):
     thumbnail = models.ImageField(upload_to="photos/%Y/%m/%d/")
     text = models.TextField(verbose_name='Содержание', null=True, max_length=1000)
     slug = models.SlugField(verbose_name='Slug', max_length=255, unique=True, db_index=True)
+    user = models.ForeignKey(User, verbose_name=_("ID пользователя"), on_delete=models.CASCADE)
     
     def get_absolute_url(self):
         return reverse("post", kwargs={"post_slug": self.slug})

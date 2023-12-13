@@ -38,16 +38,17 @@ img, svg, video {
 }
 
 /* Form */
-/* input, textarea, button, select {
+input, textarea, button, select {
   font-family: inherit;
   font-size: inherit;
 }
 
+
 input::-ms-clear {
   display: none;
-} */
+} 
 
-/* button, input[type="submit"] {
+button, input[type="submit"] {
   display: inline-block;
   box-shadow: none;
   background-color: transparent;
@@ -57,7 +58,7 @@ input::-ms-clear {
 button::-moz-focus-inner {
   padding: 0;
   border: none;
-} */
+}
 
 label {
   cursor: pointer;
