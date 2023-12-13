@@ -1,10 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.core.paginator import Paginator
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout, login
 
 from .utils import nav_list, DataMixin
-from .forms import AddPostForm
+from .forms import AddPostForm, RegisterUserForm, LoginUserForm, FilterPostsForm
+from .filters import PostFilter
 
 from .models import *
 
@@ -20,15 +25,24 @@ class Portfolio(DataMixin, ListView):
     context_object_name = 'posts'
     paginate_by = 4
     def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        queryset = self.get_queryset()
+        st_filter = PostFilter(self.request.GET, queryset)
+        c_def = self.get_user_context(title='Главная страница', auth=auth, st_filter=st_filter)
         posts = Post.objects.all()
         context = super().get_context_data(**kwargs)
         context['title'] = 'Портфолио'
         context['nav_list'] = nav_list
         context['posts'] = posts
-        return context
+        return {**context, **c_def}
     
     def get_queryset(self):
-        return Post.objects.filter()
+        queryset = super().get_queryset()
+        st_filter = PostFilter(self.request.GET, queryset)
+        return st_filter.qs
+
+
 
 # def portfolio(request):
 #     posts = Post.objects.all()
@@ -71,12 +85,7 @@ def about(request):
     }
     return render(request, 'blog/about.html', context=context)
 
-def login(request):
-    context = {
-        'title': "Авторизация", 
-        'nav_list': nav_list,
-    }
-    return render(request, 'blog/login.html', context=context)
+
 
 # def post(request, post_slug):
 #     post = get_object_or_404(Post, slug=post_slug)
@@ -106,3 +115,32 @@ def addpost(request):
         'form': form,
     }
     return render(request, 'blog/addpost.html', context=context)
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = RegisterUserForm
+    template_name = 'blog/register.html'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Регистрация")
+        return {**context, **c_def}
+    
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('main')
+
+    
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'blog/login.html'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Авторизация")
+        return {**context, **c_def}
+
+    def get_success_url(self):
+        return reverse_lazy('main')
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

@@ -1,0 +1,16 @@
+.form-label {
+    display: inline-block;
+    min-width: 75px;
+    vertical-align: top;
+}
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.form-input {
+    width: 200px;
+    font-size: 16px;
+}
+   

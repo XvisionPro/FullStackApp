@@ -1,7 +1,6 @@
 nav_list = [{'title': "Главная", 'url_name': 'main'},
             {'title': "Обо мне", 'url_name': 'about'},
-            {'title': 'Портфолио', 'url_name': 'portfolio'},
-            {'title': 'Войти', 'url_name': 'login'},]
+            {'title': 'Портфолио', 'url_name': 'portfolio'},]
 
 
 class DataMixin:

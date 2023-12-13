@@ -3,6 +3,13 @@
 {% block content %}
 <div class="container">
     <a href="{% url 'addpost' %}" class="add-post-btn btn">Добавить пост</a>
+
+    <form method="get" action="{% url 'portfolio' %}">
+        {{ st_filter.form.as_p }}
+        <button type="submit">Искать</button>
+        </form>
+       
+
     <div class="portfolio__posts">
         {% for p in page_obj %}
         <div class="portfolio__post">
