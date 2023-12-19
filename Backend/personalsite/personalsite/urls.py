@@ -26,7 +26,7 @@ from blog.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
-    path('api/', UserView.as_view(), name='oh_shit')
+    path('api/', include('api.urls'), name='oh_shit'),
 ]
 
 if settings.DEBUG:
