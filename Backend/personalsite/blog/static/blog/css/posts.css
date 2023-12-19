@@ -85,8 +85,10 @@
 .post__files{
     display: flex;
     flex-wrap: wrap;
+    padding: 10px;
 }
 .post__content-img{
+    padding: 10px;
     height: 300px;
     width: calc(100% / 3);
     display: inline-block;

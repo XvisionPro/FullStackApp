@@ -6,9 +6,10 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
+from django.contrib.auth.models import Group 
 
 from .utils import nav_list, DataMixin
-from .forms import AddPostForm, RegisterUserForm, LoginUserForm, FilterPostsForm, AddPostFileForm
+from .forms import AddPostForm, CustomUserCreationForm, RegisterUserForm, LoginUserForm, FilterPostsForm, AddPostFileForm
 from .filters import PostFilter
 
 from .models import *
@@ -108,6 +109,7 @@ def addpost(request):
         if form.is_valid() and formfile.is_valid():
             #print(form.cleaned_data)
             try:
+                form.instance.user = request.user
                 post_instance = form.save(commit=False)
                 post_instance.save()
                 for f in files:
@@ -129,15 +131,24 @@ def addpost(request):
     return render(request, 'blog/addpost.html', context=context)
 
 class RegisterUser(DataMixin, CreateView):
-    form_class = RegisterUserForm
+    # form_class = RegisterUserForm
+    form_class = CustomUserCreationForm
     template_name = 'blog/register.html'
+    
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Регистрация")
         return {**context, **c_def}
     
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.save()
+        
+        user_group = Group.objects.get(name=form.cleaned_data['groups'])
+        user.groups.add(user_group)
+        # for form_ug in form.cleaned_data['groups']:
+        #     user_group = Group.objects.get(name=form_ug.name)
+        #     user.groups.add(user_group)
         login(self.request, user)
         return redirect('main')
 

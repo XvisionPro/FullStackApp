@@ -1,8 +1,36 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 from .models import *
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+    
+    add_fieldsets= (
+        *UserAdmin.add_fieldsets,
+        (
+            'Custom fields',
+            {
+                'fields': (
+                    'welcomeCode',
+                )
+            }
+        )
+    )
+    
+    fieldsets=(
+        *UserAdmin.fieldsets,
+        (
+            'Custom fields',
+            {
+                'fields': (
+                    'welcomeCode',
+                )
+            }
+        )
+    )
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'text')
@@ -14,6 +42,7 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostFile)
+admin.site.register(CustomUser, CustomUserAdmin)
 
 
 # Classes

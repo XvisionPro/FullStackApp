@@ -1,31 +1,36 @@
 from django.db import models
 from django.db import models 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
 from django.urls import reverse 
 from django.utils import timezone 
 from django.utils.translation import gettext_lazy as _ 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 # Create your models here.
 
-class CustomUser(AbstractBaseUser):
-    username = models.CharField(max_length=50, unique=True,verbose_name='Имя пользователя')
+class CustomUser(AbstractUser):
     welcomeCode = models.CharField(verbose_name='Код приглашения',unique=True, max_length=50, null=True)
-    
-    USERNAME_FIELD = 'username'
-    
+
     def __str__(self):
         return self.username
     
     def get_absolute_url(self):
         return reverse("user", kwargs={"pk": self.pk})
     
+    @property
+    def is_Administrator(self):
+        return self.groups.filter(name='Administrator').exists()
+    
+    @property
+    def is_Creator(self):
+        return self.groups.filter(name='Creator').exists()
+    
 class Post(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=100)
     thumbnail = models.ImageField(upload_to="photos/%Y/%m/%d/")
     text = models.TextField(verbose_name='Содержание', null=True, max_length=1000)
     slug = models.SlugField(verbose_name='Slug', max_length=255, unique=True, db_index=True)
-    user = models.ForeignKey(User, verbose_name="ID пользователя", on_delete=models.CASCADE, related_name='user')
+    user = models.ForeignKey(CustomUser, verbose_name="ID пользователя", on_delete=models.CASCADE, related_name='user')
     
     def get_absolute_url(self):
         return reverse("post", kwargs={"post_slug": self.slug})

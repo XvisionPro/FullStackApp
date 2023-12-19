@@ -2,7 +2,11 @@
 
 {% block content %}
 <div class="container">
+
+    {% if request.user.is_Administrator == True or request.user.is_Creator%} 
     <a href="{% url 'addpost' %}" class="add-post-btn btn">Добавить пост</a>
+    {% else %}
+    {% endif %}
 
     <form method="get" action="{% url 'portfolio' %}" class="search-form">
         <div class="search-item">{{ st_filter.form.as_p }}</div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .models import User
+from blog.models import CustomUser
 from .serializer import UserSerializer
 from rest_framework.response import Response
 
@@ -16,7 +16,7 @@ class UserView(APIView):
                 'password' : output.password,
                 'isAdmin' : output.isAdmin,
                 'welcomeCode' : output.welcomeCode,
-            } for output in User.objects.all()
+            } for output in CustomUser.objects.all()
         ]
         return Response(output)
     

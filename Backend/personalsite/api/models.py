@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from blog.models import CustomUser
 
 # Create your models here.
     
@@ -9,7 +9,7 @@ class Post(models.Model):
     thumbnail = models.ImageField(upload_to="photos/%Y/%m/%d/")
     text = models.TextField(verbose_name='Содержание', null=True, max_length=1000)
     slug = models.SlugField(verbose_name='Slug', max_length=255, unique=True, db_index=True)
-    user = models.ForeignKey(User, verbose_name=("ID пользователя"), on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, verbose_name=("ID пользователя"), on_delete=models.CASCADE)
     
     def get_absolute_url(self):
         return reverse("post", kwargs={"post_slug": self.slug})
@@ -25,7 +25,7 @@ class Gallery(models.Model):
     name = models.CharField(("Название статьи"), max_length=100)
     theme = models.BooleanField(verbose_name="Тёмная тема", default=False)
     filmed_at = models.DateTimeField(("Дата съёмки"), auto_now=False, auto_now_add=False)
-    user = models.ForeignKey(User, verbose_name=("ID пользователя"), on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, verbose_name=("ID пользователя"), on_delete=models.CASCADE)
     
 
 # Тест Gallery_file (не мигрирован)

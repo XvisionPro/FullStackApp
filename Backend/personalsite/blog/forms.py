@@ -1,10 +1,11 @@
 from typing import Any
 from django import forms
 from blog.models import Post, PostFile
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, UserCreationForm
+from .models import CustomUser
 from django.template.defaultfilters import slugify
 from django.forms import ClearableFileInput
+from django.contrib.auth.models import User, Group
 
 # class AddPostForm2(forms.Form):
 #     title = forms.CharField(label='Название поста', max_length=100)
@@ -12,10 +13,9 @@ from django.forms import ClearableFileInput
 #     text = forms.CharField(label='Текст поста', max_length=1000)
     
 class AddPostForm(forms.ModelForm):
-    
     class Meta:
         model = Post
-        fields = ('title', 'thumbnail', 'text', 'user','slug')
+        fields = ('title', 'thumbnail', 'text','slug',)
         
 class AddPostFileForm(forms.ModelForm):
     class Meta:
@@ -45,3 +45,17 @@ class LoginUserForm(AuthenticationForm):
 class FilterPostsForm(forms.Form):
     title = forms.CharField(label='Название поста', max_length=50, required=False)
 
+
+class CustomUserCreationForm(UserCreationForm):
+    groups = forms.ModelChoiceField(queryset=Group.objects.all())
+    
+    class Meta:
+        model = CustomUser
+        # fields = '__all__'
+        fields = ['username','first_name','last_name', 'email', 'welcomeCode', 'groups']
+        
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        # fields = '__all__'
+        fields = ['username','first_name','last_name', 'email', 'welcomeCode', 'groups']
