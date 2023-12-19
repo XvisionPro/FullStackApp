@@ -1,9 +1,10 @@
 from typing import Any
 from django import forms
-from blog.models import Post
+from blog.models import Post, PostFile
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.forms import ClearableFileInput
 
 # class AddPostForm2(forms.Form):
 #     title = forms.CharField(label='Название поста', max_length=100)
@@ -11,11 +12,20 @@ from django.template.defaultfilters import slugify
 #     text = forms.CharField(label='Текст поста', max_length=1000)
     
 class AddPostForm(forms.ModelForm):
+    
     class Meta:
         model = Post
         fields = ('title', 'thumbnail', 'text', 'user','slug')
         
-    
+class AddPostFileForm(forms.ModelForm):
+    class Meta:
+        model = PostFile
+        fields = ('file',)
+        widgets= {
+            'file': forms.FileInput(attrs={'multiple': True, 'type': 'file'})
+        }
+
+                
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин')
     email = forms.EmailField(label='E-mail')

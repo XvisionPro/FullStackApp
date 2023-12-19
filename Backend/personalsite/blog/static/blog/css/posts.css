@@ -57,7 +57,6 @@
     display: flex;
     justify-content: space-between;
 }
-
 .post__title{
     font-size: 48px;
     font-weight: 600;
@@ -74,4 +73,22 @@
 .post__text{
     padding: 30px 0;
     font-size: 18px;
+}
+
+.post__content{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post__files{
+    display: flex;
+    flex-wrap: wrap;
+}
+.post__content-img{
+    height: 300px;
+    width: calc(100% / 3);
+    display: inline-block;
+    object-fit:contain;
 }

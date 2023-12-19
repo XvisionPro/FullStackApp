@@ -25,7 +25,7 @@ class Post(models.Model):
     thumbnail = models.ImageField(upload_to="photos/%Y/%m/%d/")
     text = models.TextField(verbose_name='Содержание', null=True, max_length=1000)
     slug = models.SlugField(verbose_name='Slug', max_length=255, unique=True, db_index=True)
-    user = models.ForeignKey(User, verbose_name=_("ID пользователя"), on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name="ID пользователя", on_delete=models.CASCADE)
     
     def get_absolute_url(self):
         return reverse("post", kwargs={"post_slug": self.slug})
@@ -36,6 +36,10 @@ class Post(models.Model):
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
         ordering= ['title']
+        
+class PostFile(models.Model):
+    file = models.FileField(verbose_name="Файл", upload_to="files/%Y/%m/%d/", max_length=100,)
+    post = models.ForeignKey(Post, verbose_name="ID Поста", on_delete=models.CASCADE)
     
     
     

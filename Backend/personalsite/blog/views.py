@@ -8,7 +8,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 
 from .utils import nav_list, DataMixin
-from .forms import AddPostForm, RegisterUserForm, LoginUserForm, FilterPostsForm
+from .forms import AddPostForm, RegisterUserForm, LoginUserForm, FilterPostsForm, AddPostFileForm
 from .filters import PostFilter
 
 from .models import *
@@ -65,8 +65,10 @@ class ShowPost(DataMixin,DetailView):
     
     def get_context_data(self, *, object_list=None, **kwargs): 
         context = super().get_context_data(**kwargs)
+        images = PostFile.objects.filter(post=context['post'].id)
         c_def=self.get_user_context(title=context['post'].title)
         context['nav_list'] = nav_list
+        context['images'] = images
         return dict(list(context.items())+list(c_def.items()))
 
 
@@ -101,19 +103,28 @@ def about(request):
 def addpost(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST,  request.FILES)
-        if form.is_valid():
+        formfile = AddPostFileForm(request.POST, request.FILES)
+        files = request.FILES.getlist('file')
+        if form.is_valid() and formfile.is_valid():
             #print(form.cleaned_data)
             try:
-                form.save()
+                post_instance = form.save(commit=False)
+                post_instance.save()
+                for f in files:
+                    file_instance = PostFile(file=f, post=post_instance)
+                    file_instance.save()
                 return redirect('main')
             except:
                 form.add_error(None, "Лох!")
+                formfile.add_error(None, "Лох2!")
     else:
         form = AddPostForm()
+        formfile = AddPostFileForm()
     context = {
         'title': "Добавить пост", 
         'nav_list': nav_list,
         'form': form,
+        'formfile': formfile,
     }
     return render(request, 'blog/addpost.html', context=context)
 
