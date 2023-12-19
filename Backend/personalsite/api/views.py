@@ -26,5 +26,3 @@ class UserView(APIView):
             serializer.save()
             return Response(serializer.data)
 
-def main(request):
-    return HttpResponse("<h1>Hello</h1>")
