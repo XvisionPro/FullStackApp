@@ -27,6 +27,7 @@ class AddPostFileForm(forms.ModelForm):
 
                 
 class RegisterUserForm(UserCreationForm):
+    
     username = forms.CharField(label='Логин')
     email = forms.EmailField(label='E-mail')
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
@@ -47,12 +48,24 @@ class FilterPostsForm(forms.Form):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    regcode = forms.CharField(label='Код приглашения')
     groups = forms.ModelChoiceField(queryset=Group.objects.all())
     
     class Meta:
         model = CustomUser
         # fields = '__all__'
-        fields = ['username','first_name','last_name', 'email', 'welcomeCode', 'groups']
+        fields = ['username','first_name','last_name', 'email', 'welcomeCode', 'groups', 'regcode',]
+        
+    def clean(self):
+        super(CustomUserCreationForm, self).clean()
+
+        regcode = self.cleaned_data.get('regcode')
+        codes = CustomUser.objects.values_list('welcomeCode', flat=True).distinct()
+        print(codes)
+        if not regcode in codes:
+            self._errors['regcode'] = self.error_class([
+                'Нет такого кода!'])
+        
         
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
