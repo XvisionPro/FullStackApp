@@ -8,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
+from rest_framework.authtoken.models import Token
+
 class CustomUser(AbstractUser):
     welcomeCode = models.CharField(verbose_name='Код приглашения',unique=True, max_length=50, null=True)
 
@@ -24,6 +26,7 @@ class CustomUser(AbstractUser):
     @property
     def is_Creator(self):
         return self.groups.filter(name='Creator').exists()
+    
     
 class Post(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=100)

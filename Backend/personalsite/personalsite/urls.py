@@ -17,7 +17,7 @@ Including another URLconf
 from personalsite import settings
 from django.contrib import admin
 from django.conf.urls.static import static
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.urls import re_path as url
 from api.views import *
 from blog.views import *
@@ -27,6 +27,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('api/', include('api.urls'), name='oh_shit'),
+    url(r'^account/', include('djoser.urls')),
+    re_path(r'^account/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:

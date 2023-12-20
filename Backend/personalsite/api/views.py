@@ -14,7 +14,6 @@ class UserView(APIView):
                 'username' : output.username,
                 'email' : output.email,
                 'password' : output.password,
-                'isAdmin' : output.isAdmin,
                 'welcomeCode' : output.welcomeCode,
             } for output in CustomUser.objects.all()
         ]

@@ -28,11 +28,10 @@ class Gallery(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name=("ID пользователя"), on_delete=models.CASCADE)
     
 
-# Тест Gallery_file (не мигрирован)
+# Тест Gallery_file
 
 class GalleryFile(models.Model):
     gallery = models.ForeignKey(Gallery, verbose_name=("ID галереи"), on_delete=models.CASCADE)
     file = models.FileField(verbose_name=("Файл"), upload_to=None, max_length=100)
     favorite = models.BooleanField(verbose_name="Избранное?", default=False)
-
 

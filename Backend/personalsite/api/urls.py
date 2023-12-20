@@ -14,6 +14,4 @@ urlpatterns = [
     # path('v1/posts/<int:pk>', PostAPIDetailView.as_view()),
     path('v1/',include(router.urls)),
     path('v1/auth-session/', include('rest_framework.urls')),
-    path('v1/auth/', include('djoser.urls')),
-    re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]
